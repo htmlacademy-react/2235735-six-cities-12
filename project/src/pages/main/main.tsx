@@ -1,6 +1,7 @@
 import Header from '../../components/header/header';
 import CardList from '../../components/card-list/card-list';
-import { Offer } from '../../types/offers';
+import Map from '../../components/map/map';
+import { Offer, City } from '../../types/offers';
 
 
 type MainProps = {
@@ -8,6 +9,19 @@ type MainProps = {
 }
 
 function Main({offers }: MainProps): JSX.Element {
+  const city:City = {
+    location:{
+      latitude: 52.3740300,
+      longitude:4.8896900,
+      zoom:10,
+    },
+    name: 'Amsterdam'
+  };
+
+  const points:Offer[] = offers.filter((e)=>e.city.name === city.name);
+
+  let selectedPoint;
+
   return (
     <div className="page page--gray page--main">
       <Header offers={offers}></Header>
@@ -71,11 +85,13 @@ function Main({offers }: MainProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <CardList offers = {offers}/>
+                <CardList offers = {offers} page='Main'/>
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <section className="cities__map map">
+                <Map city = {city} points = {points} selectedPoint={selectedPoint}/>
+              </section>
             </div>
           </div>
         </div>

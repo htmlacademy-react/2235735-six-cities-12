@@ -7,10 +7,7 @@ export type Location = {
 
 export type Offer = {
     bedrooms: number;
-    city:{
-        location:Location;
-        name: string;
-    };
+    city:City;
     description:string;
     goods: string[];
     host:{
@@ -30,4 +27,9 @@ export type Offer = {
     rating:number;
     title:string;
     type:string;
+};
+
+export type City = {
+    location:Location;
+    name: string;
 };
