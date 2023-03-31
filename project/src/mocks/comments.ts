@@ -16,7 +16,7 @@ export const comments: Comment[] = [
   {
     comment:'Comment2',
     date:'Fri Mar 31 2023 14:33:56 GMT+0700 (Новосибирск, стандартное время)',
-    id:1,
+    id:2,
     rating:2,
     user:{
       avatarUrl:'img/avatar-angelina.jpg',
