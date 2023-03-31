@@ -1,6 +1,6 @@
 import Header from '../../components/header/header';
-import CardFavorites from '../../components/card/card-favorites';
 import { Offer } from '../../types/offers';
+import CardList from '../../components/card-list/card-list';
 
 type FavoritesProps = {
   offers : Offer[];
@@ -11,7 +11,6 @@ function Favorites({offers }: FavoritesProps): JSX.Element {
   return (
     <div className="page">
       <Header offers={offers}></Header>
-
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
           <section className="favorites">
@@ -26,7 +25,7 @@ function Favorites({offers }: FavoritesProps): JSX.Element {
                   </div>
                 </div>
                 <div className="favorites__places">
-                  {offers.map((offer)=>(<CardFavorites offer={offer} key = {offer.id} />))}
+                  <CardList offers = {offers} page='Favorites'/>
                 </div>
               </li>
             </ul>

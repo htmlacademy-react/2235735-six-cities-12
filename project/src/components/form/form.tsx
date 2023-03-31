@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, ChangeEvent} from 'react';
 
 function Form(): JSX.Element {
 
@@ -7,7 +7,7 @@ function Form(): JSX.Element {
     review: ''
   });
 
-  const fieldChangeHandle = (evt) => {
+  const fieldChangeHandle = (evt:ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement> ) => {
     const {name, value} = evt.target;
     setFormData({...formData, [name]: value});
   };
