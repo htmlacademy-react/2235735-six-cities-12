@@ -8,16 +8,16 @@ type MainProps = {
     offers : Offer[];
 }
 
-function Main({offers }: MainProps): JSX.Element {
-  const city:City = {
-    location:{
-      latitude: 52.3740300,
-      longitude:4.8896900,
-      zoom:10,
-    },
-    name: 'Amsterdam'
-  };
+const city:City = {
+  location:{
+    latitude: 52.3740300,
+    longitude:4.8896900,
+    zoom:10,
+  },
+  name: 'Amsterdam'
+};
 
+function Main({offers }: MainProps): JSX.Element {
   const points:Offer[] = offers.filter((e)=>e.city.name === city.name);
 
   let selectedPoint;
@@ -85,12 +85,12 @@ function Main({offers }: MainProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <CardList offers = {offers} page='Main'/>
+                <CardList offers = {offers}/>
               </div>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map city = {city} points = {points} selectedPoint={selectedPoint} mapHeight='792px'/>
+                <Map city = {city} points = {points} selectedPoint={selectedPoint} mapHeight='750px'/>
               </section>
             </div>
           </div>

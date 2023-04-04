@@ -25,7 +25,7 @@ function Favorites({offers }: FavoritesProps): JSX.Element {
                   </div>
                 </div>
                 <div className="favorites__places">
-                  <CardList offers = {offers} page='Favorites'/>
+                  <CardList offers = {offers}/>
                 </div>
               </li>
             </ul>
