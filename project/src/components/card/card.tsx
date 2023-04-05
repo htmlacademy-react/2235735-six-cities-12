@@ -1,28 +1,15 @@
 import cn from 'classnames';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Offer } from '../../types/offers';
 
 type CardProps = {
   offer : Offer;
-  page: string;
 }
 
-function Card ({offer, page}:CardProps): JSX.Element {
-  let isMainPage = false;
-  let isFavoritesPage = false;
-  let isPropertyPage = false;
+function Card ({offer}:CardProps): JSX.Element {
+  const location = useLocation();
+  const pathname = location.pathname;
 
-  switch (page){
-    case 'Main':
-      isMainPage = true;
-      break;
-    case 'Favorites':
-      isFavoritesPage = true;
-      break;
-    case 'Property':
-      isPropertyPage = true;
-      break;
-  }
   return (
     <>
       <div className="place-card__mark">
@@ -31,9 +18,9 @@ function Card ({offer, page}:CardProps): JSX.Element {
       <div className={cn(
         'place-card__image-wrapper',
         {
-          'cities__image-wrapper': isMainPage,
-          'favorites__image-wrapper': isFavoritesPage,
-          'near-places__image-wrapper': isPropertyPage
+          'cities__image-wrapper': pathname === '/',
+          'favorites__image-wrapper': pathname === '/favorites',
+          'near-places__image-wrapper': pathname === '/offer/:id'
         }
       )}
       >
@@ -44,7 +31,7 @@ function Card ({offer, page}:CardProps): JSX.Element {
       <div className={cn(
         'place-card__info',
         {
-          'favorites__card-info':isFavoritesPage
+          'favorites__card-info':pathname === '/favorites'
         }
       )}
       >

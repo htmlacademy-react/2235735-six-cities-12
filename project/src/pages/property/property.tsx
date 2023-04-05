@@ -1,14 +1,29 @@
 import Header from '../../components/header/header';
 import CardList from '../../components/card-list/card-list';
 import Form from '../../components/form/form';
-// import { offers } from '../../mocks/offers';
-import { Offer } from '../../types/offers';
+import Map from '../../components/map/map';
+import ReviewList from '../../components/review-list/review-list';
+import { Offer, City } from '../../types/offers';
+import { Comment } from '../../types/comments';
 
 type PropertyProps = {
   offers : Offer[];
+  comments: Comment[];
 }
 
-function Property({offers }: PropertyProps): JSX.Element {
+function Property({offers, comments }: PropertyProps): JSX.Element {
+  const city:City = {
+    location:{
+      latitude: 52.3740300,
+      longitude:4.8896900,
+      zoom:10,
+    },
+    name: 'Amsterdam'
+  };
+
+  const points:Offer[] = offers.filter((e)=>e.city.name === city.name);
+
+  let selectedPoint;
   return (
     <div className="page">
       <Header offers={offers}></Header>
@@ -133,42 +148,20 @@ function Property({offers }: PropertyProps): JSX.Element {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
-                <ul className="reviews__list">
-                  <li className="reviews__item">
-                    <div className="reviews__user user">
-                      <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                        <img className="reviews__avatar user__avatar" src="img/avatar-max.jpg" width="54" height="54" alt="Reviews avatar" />
-                      </div>
-                      <span className="reviews__user-name">
-                                                Max
-                      </span>
-                    </div>
-                    <div className="reviews__info">
-                      <div className="reviews__rating rating">
-                        <div className="reviews__stars rating__stars">
-                          <span style={{ width: '80%' }}></span>
-                          <span className="visually-hidden">Rating</span>
-                        </div>
-                      </div>
-                      <p className="reviews__text">
-                                                A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                      </p>
-                      <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
-                    </div>
-                  </li>
-                </ul>
+                <ReviewList comments= {comments}/>
                 <Form/>
               </section>
             </div>
           </div>
-          <section className="property__map map"></section>
+          <section className="property__map map">
+            <Map city = {city} points = {points} selectedPoint={selectedPoint} mapHeight='579px'/>
+          </section>
         </section >
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <CardList offers = {offers} page='Property'/>
+              <CardList offers = {offers}/>
             </div>
           </section>
         </div>

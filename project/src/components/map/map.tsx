@@ -9,6 +9,7 @@ type MapProps = {
     city: City;
     points: Offer[];
     selectedPoint: Offer | undefined;
+    mapHeight: string;
   };
 
 const defaultCustomIcon = new Icon({
@@ -23,7 +24,7 @@ const currentCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-function Map({city, points, selectedPoint}:MapProps):JSX.Element{
+function Map({city, points, selectedPoint,mapHeight}:MapProps):JSX.Element{
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
   useEffect(() => {
@@ -46,7 +47,7 @@ function Map({city, points, selectedPoint}:MapProps):JSX.Element{
   }, [map, points, selectedPoint]);
 
   return (
-    <div style={{height: '792px'}} ref={mapRef}></div>
+    <div style={{height: mapHeight}} ref={mapRef}></div>
   );
 }
 

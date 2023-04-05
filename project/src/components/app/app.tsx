@@ -7,6 +7,7 @@ import Favorites from '../../pages/favorites/favorites';
 import Property from '../../pages/property/property';
 import PrivateRoute from '../private-route/private-route';
 import { Offer } from '../../types/offers';
+import { comments } from '../../mocks/comments';
 
 type AppProps = {
   offers: Offer[];
@@ -34,7 +35,7 @@ function App({ offers }: AppProps): JSX.Element {
         />
         <Route
           path={AppRoute.Room}
-          element={<Property offers = {offers} />}
+          element={<Property offers = {offers} comments = {comments} />}
         />
         <Route
           path="*"
