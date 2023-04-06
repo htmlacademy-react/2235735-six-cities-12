@@ -1,24 +1,12 @@
 import Header from '../../components/header/header';
 import CardList from '../../components/card-list/card-list';
 import Map from '../../components/map/map';
-import { Offer, City } from '../../types/offers';
+import CityList from '../../components/city-list/city-list';
+import { useAppSelector } from '../../hooks';
 
-
-type MainProps = {
-    offers : Offer[];
-}
-
-const city:City = {
-  location:{
-    latitude: 52.3740300,
-    longitude:4.8896900,
-    zoom:10,
-  },
-  name: 'Amsterdam'
-};
-
-function Main({offers }: MainProps): JSX.Element {
-  const points:Offer[] = offers.filter((e)=>e.city.name === city.name);
+function Main(): JSX.Element {
+  const offers = useAppSelector((state) => state.cards);
+  const city = useAppSelector((state) => state.city);
 
   let selectedPoint;
 
@@ -31,36 +19,7 @@ function Main({offers }: MainProps): JSX.Element {
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active" href="/">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
+              <CityList city={city}/>
             </ul>
           </section>
         </div>
@@ -68,7 +27,7 @@ function Main({offers }: MainProps): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">312 places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in {city.name}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -90,7 +49,7 @@ function Main({offers }: MainProps): JSX.Element {
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map city = {city} points = {points} selectedPoint={selectedPoint} mapHeight='750px'/>
+                <Map city = {city} points = {offers} selectedPoint={selectedPoint} mapHeight='750px'/>
               </section>
             </div>
           </div>
