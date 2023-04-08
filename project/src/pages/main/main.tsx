@@ -8,8 +8,8 @@ import Sort from '../../components/sort/sort';
 function Main(): JSX.Element {
   const offers = useAppSelector((state) => state.cards);
   const city = useAppSelector((state) => state.city);
-
-  let selectedPoint;
+  const type = useAppSelector((state) => state.type);
+  const selectedPoint = useAppSelector((state) => state.selectedPoint);
 
   return (
     <div className="page page--gray page--main">
@@ -29,7 +29,7 @@ function Main(): JSX.Element {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offers.length} places to stay in {city.name}</b>
-              <Sort offers={offers}/>
+              <Sort city={city} offers={offers} type={type}/>
               <div className="cities__places-list places__list tabs__content">
                 <CardList offers = {offers}/>
               </div>

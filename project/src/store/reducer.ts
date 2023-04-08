@@ -1,8 +1,16 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, fillCards } from './action';
+import { changeCity, filterCards, sortCards, sortType, selectCard } from './action';
 import { offers } from '../mocks/offers';
+import { City, Offer } from '../types/offers';
 
-const initialState = {
+type initialStateProps = {
+  city: City;
+  cards:Offer[];
+  type:string;
+  selectedPoint: Offer | undefined;
+};
+
+const initialState:initialStateProps = {
   city: {
     location:{
       latitude: 48.864716,
@@ -11,7 +19,9 @@ const initialState = {
     },
     name: 'Paris'
   },
-  cards: offers.filter((e)=>e.city.name === 'Paris')
+  cards: offers.filter((e)=>e.city.name === 'Paris'),
+  type:'Popular',
+  selectedPoint: undefined
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -20,10 +30,22 @@ const reducer = createReducer(initialState, (builder) => {
       const {city} = action.payload;
       state.city = city;
     })
-    .addCase(fillCards, (state,action) => {
+    .addCase(filterCards, (state,action) => {
       const {city} = action.payload;
       const cards = offers.filter((e)=>e.city.name === city.name);
       state.cards = cards;
+    })
+    .addCase(sortCards, (state,action) => {
+      const {sortedCards} = action.payload;
+      state.cards = sortedCards;
+    })
+    .addCase(sortType, (state,action) => {
+      const {type} = action.payload;
+      state.type = type;
+    })
+    .addCase(selectCard, (state,action) => {
+      const {card} = action.payload;
+      state.selectedPoint = card;
     });
 });
 

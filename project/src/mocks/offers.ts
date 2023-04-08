@@ -34,8 +34,8 @@ export const offers: Offer[] = [
     },
     maxAdults: 4,
     previewImage: 'img/apartment-02.jpg',
-    price: 300,
-    rating: 3.8,
+    price: 100,
+    rating: 1,
     title: 'Room1',
     type: 'apartment'
   },
@@ -72,8 +72,8 @@ export const offers: Offer[] = [
     },
     maxAdults: 4,
     previewImage: 'img/apartment-01.jpg',
-    price: 100,
-    rating: 3.8,
+    price: 500,
+    rating: 1,
     title: 'Room2',
     type: 'apartment'
   },
@@ -110,8 +110,8 @@ export const offers: Offer[] = [
     },
     maxAdults: 4,
     previewImage: 'img/apartment-01.jpg',
-    price: 100,
-    rating: 3.8,
+    price: 300,
+    rating: 7,
     title: 'Room3',
     type: 'apartment'
   },
@@ -148,8 +148,8 @@ export const offers: Offer[] = [
     },
     maxAdults: 4,
     previewImage: 'img/apartment-01.jpg',
-    price: 100,
-    rating: 3.8,
+    price: 23300,
+    rating: 9,
     title: 'Room4',
     type: 'apartment'
   }

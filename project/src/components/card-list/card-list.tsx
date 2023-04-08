@@ -1,17 +1,18 @@
 import {useLocation} from 'react-router-dom';
-import { useState, MouseEvent } from 'react';
 import cn from 'classnames';
 import Card from '../../components/card/card';
 import { Offer } from '../../types/offers';
-
+import { useAppDispatch } from '../../hooks';
+import { selectCard } from '../../store/action';
 type CardListProps = {
     offers: Offer[];
 }
 
 function CardList({offers}: CardListProps): JSX.Element {
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const pathname = location.pathname;
-  const [card, setCard] = useState(0);
+  // const [card, setCard] = useState(0);
 
   return (
     <>
@@ -24,10 +25,7 @@ function CardList({offers}: CardListProps): JSX.Element {
             'near-places__card':pathname === '/offer/:id'
           }
         ) }
-        key={offer.id} onMouseEnter={(evt:MouseEvent)=>{
-          evt.preventDefault();
-          setCard(offer.id);
-        }}
+        key={offer.id} onMouseEnter={()=>{dispatch(selectCard({card:offer}));}} onMouseLeave={()=>{dispatch(selectCard({card:undefined}));}}
         >
           <Card offer={offer} />
         </article>
