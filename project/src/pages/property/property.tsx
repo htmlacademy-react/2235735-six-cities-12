@@ -23,7 +23,6 @@ function Property({offers, comments }: PropertyProps): JSX.Element {
 
   const points:Offer[] = offers.filter((e)=>e.city.name === city.name);
 
-  let selectedPoint;
   return (
     <div className="page">
       <Header offers={offers}></Header>
@@ -154,7 +153,7 @@ function Property({offers, comments }: PropertyProps): JSX.Element {
             </div>
           </div>
           <section className="property__map map">
-            <Map city = {city} points = {points} selectedPoint={selectedPoint} mapHeight='579px'/>
+            <Map city = {city} points = {points} mapHeight='579px'/>
           </section>
         </section >
         <div className="container">
