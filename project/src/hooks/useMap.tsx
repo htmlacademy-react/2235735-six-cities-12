@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, MutableRefObject } from 'react';
-import { Map, TileLayer } from 'leaflet';
+import { Map, TileLayer,Marker } from 'leaflet';
 import { City } from '../types/offers';
 
 function useMap(
@@ -9,6 +9,17 @@ function useMap(
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
   useEffect(() => {
+
+    if (isRenderedRef.current && map) {
+      map.eachLayer((layer) => {
+        if (layer instanceof Marker) {
+          layer.remove();
+        }
+      });
+      map.setView([city.location.latitude, city.location.longitude], map.getZoom(), );
+    }
+
+
     if (mapRef.current !== null && !isRenderedRef.current) {
       const instance = new Map(mapRef.current, {
         center: {
@@ -31,7 +42,7 @@ function useMap(
       setMap(instance);
       isRenderedRef.current = true;
     }
-  }, [mapRef, city]);
+  }, [mapRef, city, map]);
 
   return map;
 }

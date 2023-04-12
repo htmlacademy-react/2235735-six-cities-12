@@ -7,7 +7,7 @@ type initialStateProps = {
   city: City;
   cards:Offer[];
   type:string;
-  selectedPoint: Offer | undefined;
+  selectedPoint: Offer | null;
 };
 
 const initialState:initialStateProps = {
@@ -21,7 +21,7 @@ const initialState:initialStateProps = {
   },
   cards: offers.filter((e)=>e.city.name === 'Paris'),
   type:'Popular',
-  selectedPoint: undefined
+  selectedPoint: null
 };
 
 const reducer = createReducer(initialState, (builder) => {
