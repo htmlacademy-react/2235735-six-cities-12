@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { Cities } from '../../mocks/cities';
+import { CITIES } from '../../const';
 import { City } from '../../types/offers';
 import { useAppDispatch } from '../../hooks';
 import { changeCity, filterCards, sortType } from '../../store/action';
@@ -21,7 +21,7 @@ function CityList({city}:CityListProps): JSX.Element {
 
   return (
     <>
-      {Cities.map((town)=>(
+      {CITIES.map((town)=>(
         <li key={town.name} className="locations__item">
           <Link to ={AppRoute.Root} className={cn(
             'locations__item-link tabs__item',

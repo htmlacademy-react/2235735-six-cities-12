@@ -9,7 +9,7 @@ function Main(): JSX.Element {
   const offers = useAppSelector((state) => state.cards);
   const city = useAppSelector((state) => state.city);
   const type = useAppSelector((state) => state.type);
-  const selectedPoint = useAppSelector((state) => state.selectedPoint);
+
 
   return (
     <div className="page page--gray page--main">
@@ -36,7 +36,7 @@ function Main(): JSX.Element {
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map city = {city} points = {offers} selectedPoint={selectedPoint} mapHeight='750px'/>
+                <Map city = {city} points = {offers} mapHeight='750px'/>
               </section>
             </div>
           </div>

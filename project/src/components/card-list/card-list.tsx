@@ -25,7 +25,7 @@ function CardList({offers}: CardListProps): JSX.Element {
             'near-places__card':pathname === '/offer/:id'
           }
         ) }
-        key={offer.id} onMouseEnter={()=>{dispatch(selectCard({card:offer}));}} onMouseLeave={()=>{dispatch(selectCard({card:undefined}));}}
+        key={offer.id} onMouseEnter={()=>{dispatch(selectCard({card:offer}));}} onMouseLeave={()=>{dispatch(selectCard({card:null}));}}
         >
           <Card offer={offer} />
         </article>
