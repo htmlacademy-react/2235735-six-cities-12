@@ -1,61 +1,66 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, filterCards, sortCards, sortType, selectCard, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus } from './action';
+import { changeCity, filterCards, sortCards, sortType, selectCard, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData, setOfferDetails } from './action';
 import { City, Offer } from '../types/offers';
-import { AuthorizationStatus } from '../const';
+import { AuthorizationStatus, UNKNOWN_USER, UNKNOWN_OFFER } from '../const';
+import { UserData } from '../types/user-data';
 
 type initialStateProps = {
   city: City;
-  cards:Offer[];
-  type:string;
+  cards: Offer[];
+  type: string;
   selectedPoint: Offer | null;
-  authorizationStatus:string;
+  authorizationStatus: string;
   error: string | null;
   isOffersDataLoading: boolean;
-  offers:Offer[];
+  offers: Offer[];
+  user: UserData;
+  offerDetails: Offer;
 };
 
-const initialState:initialStateProps = {
+const initialState: initialStateProps = {
   city: {
-    location:{
+    location: {
       latitude: 48.864716,
-      longitude:2.349014,
-      zoom:10,
+      longitude: 2.349014,
+      zoom: 10,
     },
     name: 'Paris'
   },
   cards: [],
-  type:'Popular',
+  type: 'Popular',
   selectedPoint: null,
   authorizationStatus: AuthorizationStatus.Unknown,
   error: null,
   isOffersDataLoading: false,
-  offers:[]
+  offers: [],
+  user: UNKNOWN_USER,
+  offerDetails: UNKNOWN_OFFER
 };
 
 const reducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(changeCity, (state,action) => {
-      const {city} = action.payload;
+    .addCase(changeCity, (state, action) => {
+      const { city } = action.payload;
       state.city = city;
     })
-    .addCase(filterCards, (state,action) => {
-      const {city} = action.payload;
-      const cards = state.offers.filter((e)=>e.city.name === city.name);
+    .addCase(filterCards, (state, action) => {
+      const { city } = action.payload;
+      const cards = state.offers.filter((e) => e.city.name === city.name);
       state.cards = cards;
     })
-    .addCase(sortCards, (state,action) => {
-      const {sortedCards} = action.payload;
+    .addCase(sortCards, (state, action) => {
+      const { sortedCards } = action.payload;
       state.cards = sortedCards;
     })
-    .addCase(sortType, (state,action) => {
-      const {type} = action.payload;
+    .addCase(sortType, (state, action) => {
+      const { type } = action.payload;
       state.type = type;
     })
-    .addCase(selectCard, (state,action) => {
-      const {card} = action.payload;
+    .addCase(selectCard, (state, action) => {
+      const { card } = action.payload;
       state.selectedPoint = card;
     })
-    .addCase(loadOffers, (state,action) => {
+    .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
     })
     .addCase(requireAuthorization, (state, action) => {
@@ -66,7 +71,13 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setOffersDataLoadingStatus, (state, action) => {
       state.isOffersDataLoading = action.payload;
+    })
+    .addCase(setUserData, (state, action) => {
+      state.user = action.payload;
+    })
+    .addCase(setOfferDetails, (state, action) => {
+      state.offerDetails = action.payload;
     });
 });
 
-export {reducer};
+export { reducer };

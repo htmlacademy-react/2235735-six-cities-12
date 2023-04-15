@@ -1,6 +1,8 @@
 import cn from 'classnames';
 import { Link, useLocation } from 'react-router-dom';
 import { Offer } from '../../types/offers';
+import { useAppDispatch } from '../../hooks';
+import { fetchOfferDetailsAction } from '../../store/api-action';
 
 type CardProps = {
   offer : Offer;
@@ -9,6 +11,10 @@ type CardProps = {
 function Card ({offer}:CardProps): JSX.Element {
   const location = useLocation();
   const pathname = location.pathname;
+  const dispatch = useAppDispatch();
+  const onClick = ()=>{
+    dispatch(fetchOfferDetailsAction(offer));
+  };
 
   return (
     <>
@@ -24,7 +30,7 @@ function Card ({offer}:CardProps): JSX.Element {
         }
       )}
       >
-        <Link to='/offer/:{offer.id}'>
+        <Link to='/offer/:{offer.id}' onClick={onClick}>
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place pic"/>
         </Link>
       </div>

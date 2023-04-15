@@ -1,21 +1,27 @@
 import { useEffect, useState, useRef, MutableRefObject } from 'react';
-import { Map, TileLayer,Marker } from 'leaflet';
-import { City } from '../types/offers';
+import { Map, TileLayer,Marker, LayerGroup } from 'leaflet';
+import { City, Offer } from '../types/offers';
 
 function useMap(
   mapRef: MutableRefObject<HTMLElement | null>,
-  city: City
+  city: City,
+  points: Offer[]
 ): Map | null {
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
   useEffect(() => {
 
     if (isRenderedRef.current && map) {
-      map.eachLayer((layer) => {
-        if (layer instanceof Marker) {
-          layer.remove();
-        }
+      const markers:Marker[] = points.map((point)=>{
+        const marker = new Marker({
+          lat: point.location.latitude,
+          lng: point.location.longitude
+        });
+        return marker;
       });
+      const layerGroup = new LayerGroup(markers);
+      layerGroup.addTo(map);
+      layerGroup.clearLayers();
       map.setView([city.location.latitude, city.location.longitude], map.getZoom(), );
     }
 
@@ -42,7 +48,7 @@ function useMap(
       setMap(instance);
       isRenderedRef.current = true;
     }
-  }, [mapRef, city, map]);
+  }, [mapRef, city, map, points]);
 
   return map;
 }

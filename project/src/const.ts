@@ -1,4 +1,5 @@
-import { City } from './types/offers';
+import { City, Offer } from './types/offers';
+import { UserData } from './types/user-data';
 export enum AppRoute {
   Login = '/login',
   Lose = '/lose',
@@ -17,6 +18,7 @@ export enum APIRoute {
   Offers = '/hotels',
   Login = '/login',
   Logout = '/logout',
+  OfferDetails = '/hotels/'
 }
 
 export const URL_MARKER_DEFAULT =
@@ -86,3 +88,52 @@ export const CITIES:City[] = [
     name: 'Dusseldorf'
   }
 ];
+
+export const UNKNOWN_USER:UserData = {
+  avatarUrl:'',
+  email: '',
+  id: null,
+  isPro: false,
+  name:'',
+  token:''
+};
+
+export const UNKNOWN_OFFER:Offer = {
+  bedrooms: 0,
+  city: {
+    location: {
+      latitude: 0,
+      longitude: 0,
+      zoom: 0
+    },
+    name: ''
+  },
+  description: '',
+  goods: [
+    ''
+  ],
+  host: {
+    avatarUrl: '',
+    id: 0,
+    isPro: false,
+    name: ''
+  },
+  id: 0,
+  images: [
+    ''
+  ],
+  isFavorite: false,
+  isPremium: false,
+  location: {
+    latitude: 0,
+    longitude:0,
+    zoom: 0
+  },
+  maxAdults: 0,
+  previewImage: '',
+  price: 0,
+  rating: 0,
+  title: '',
+  type: ''
+};
+
