@@ -18,7 +18,10 @@ export enum APIRoute {
   Offers = '/hotels',
   Login = '/login',
   Logout = '/logout',
-  OfferDetails = '/hotels/'
+  OfferDetails = '/hotels/',
+  OfferComments = '/comments/',
+  OfferNearPlaces = '/hotels/',
+
 }
 
 export const URL_MARKER_DEFAULT =

@@ -6,7 +6,6 @@ import Page404 from '../../pages/page404/page404';
 import Favorites from '../../pages/favorites/favorites';
 import Property from '../../pages/property/property';
 import PrivateRoute from '../private-route/private-route';
-import { comments } from '../../mocks_toDelete/comments';
 import {useAppSelector} from '../../hooks';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
@@ -42,7 +41,7 @@ function App(): JSX.Element {
         />
         <Route
           path={AppRoute.Room}
-          element={<Property offers = {offers} comments = {comments} />}
+          element={<Property offers = {offers} />}
         />
         <Route
           path="*"

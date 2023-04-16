@@ -2,6 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { City, Offer } from '../types/offers';
 import { AuthorizationStatus } from '../const';
 import { UserData } from '../types/user-data';
+import { Comment } from '../types/comments';
 
 export const changeCity = createAction<{city:City}>('changeCity');
 export const filterCards = createAction<{city:City}>('filterCards');
@@ -14,3 +15,5 @@ export const setError = createAction<string | null>('setError');
 export const setOffersDataLoadingStatus = createAction<boolean>('data/setOffersDataLoadingStatus');
 export const setUserData = createAction<UserData>('setUserData');
 export const setOfferDetails = createAction<Offer>('setOfferDetails');
+export const setOfferComments = createAction<Comment[]>('setOfferComments');
+export const setOfferNearPlaces = createAction<Offer[]>('setOfferNearPlaces');
