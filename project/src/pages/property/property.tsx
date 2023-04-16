@@ -3,8 +3,9 @@ import CardList from '../../components/card-list/card-list';
 import Form from '../../components/form/form';
 import Map from '../../components/map/map';
 import ReviewList from '../../components/review-list/review-list';
-import { Offer, City } from '../../types/offers';
+import { Offer } from '../../types/offers';
 import { Comment } from '../../types/comments';
+import { useAppSelector } from '../../hooks';
 
 type PropertyProps = {
   offers : Offer[];
@@ -12,14 +13,9 @@ type PropertyProps = {
 }
 
 function Property({offers, comments }: PropertyProps): JSX.Element {
-  const city:City = {
-    location:{
-      latitude: 52.3740300,
-      longitude:4.8896900,
-      zoom:10,
-    },
-    name: 'Amsterdam'
-  };
+  const city = useAppSelector((state) => state.city);
+  const offerDetails = useAppSelector((state) => state.offerDetails);
+  const {bedrooms, description, isPremium, title, rating, price, maxAdults, type} = offerDetails;
 
   const points:Offer[] = offers.filter((e)=>e.city.name === city.name);
 
@@ -54,12 +50,10 @@ function Property({offers, comments }: PropertyProps): JSX.Element {
           <div className="property__container container">
             <div className="property__wrapper">
               <div className="property__mark">
-                <span>Premium</span>
+                {isPremium && (<span>Premium</span>)}
               </div>
               <div className="property__name-wrapper">
-                <h1 className="property__name">
-                                    Beautiful &amp; luxurious studio at great location
-                </h1>
+                <h1 className="property__name">{title}</h1>
                 <button className="property__bookmark-button button" type="button">
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
@@ -72,21 +66,15 @@ function Property({offers, comments }: PropertyProps): JSX.Element {
                   <span style={{ width: '80%' }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="property__rating-value rating__value">4.8</span>
+                <span className="property__rating-value rating__value">{rating}</span>
               </div>
               <ul className="property__features">
-                <li className="property__feature property__feature--entire">
-                                    Apartment
-                </li>
-                <li className="property__feature property__feature--bedrooms">
-                                    3 Bedrooms
-                </li>
-                <li className="property__feature property__feature--adults">
-                                    Max 4 adults
-                </li>
+                <li className="property__feature property__feature--entire">{type}</li>
+                <li className="property__feature property__feature--bedrooms">{bedrooms} Bedrooms</li>
+                <li className="property__feature property__feature--adults"> Max {maxAdults} adults</li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">&euro;120</b>
+                <b className="property__price-value">&euro;{price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
@@ -138,12 +126,10 @@ function Property({offers, comments }: PropertyProps): JSX.Element {
                   </span>
                 </div>
                 <div className="property__description">
-                  <p className="property__text">
-                                        A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                  </p>
-                  <p className="property__text">
+                  <p className="property__text">{description}</p>
+                  {/* <p className="property__text">
                                         An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
-                  </p>
+                  </p> */}
                 </div>
               </div>
               <section className="property__reviews reviews">

@@ -2,7 +2,7 @@ import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.js';
 import { Offer } from '../types/offers.js';
-import {loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, filterCards} from './action';
+import {loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, filterCards, setUserData, setOfferDetails} from './action';
 import {saveToken, dropToken} from '../services/token';
 import {APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR} from '../const';
 import {AuthData} from '../types/auth-data';
@@ -57,9 +57,11 @@ export const loginAction = createAsyncThunk<void, AuthData, {
 }>(
   'user/login',
   async ({login: email, password}, {dispatch, extra: api}) => {
-    const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
-    saveToken(token);
+    const {data} = await api.post<UserData>(APIRoute.Login, {email, password});
+    saveToken(data.token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(setUserData(data));
+
   },
 );
 
@@ -73,5 +75,19 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+  },
+);
+
+export const fetchOfferDetailsAction = createAsyncThunk<void, Offer, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchOfferDetails',
+  async ({id}, {dispatch, extra: api}) => {
+    const {data} = await api.get<Offer>(`${APIRoute.OfferDetails}${id}`);
+
+    dispatch(setOfferDetails(data));
+
   },
 );

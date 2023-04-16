@@ -9,7 +9,6 @@ import { useAppSelector } from '../../hooks';
 type MapProps = {
     city: City;
     points: Offer[];
-    // selectedPoint: Offer | null;
     mapHeight: string;
   };
 
@@ -28,7 +27,7 @@ const currentCustomIcon = new Icon({
 function Map({city, points,mapHeight}:MapProps):JSX.Element{
   const selectedPoint = useAppSelector((state) => state.selectedPoint);
   const mapRef = useRef(null);
-  const map = useMap(mapRef, city);
+  const map = useMap(mapRef, city, points);
   useEffect(() => {
     if (map) {
       points.forEach((point) => {
