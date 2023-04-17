@@ -1,4 +1,4 @@
-import {useLocation} from 'react-router-dom';
+import {useLocation, useMatch} from 'react-router-dom';
 import cn from 'classnames';
 import Card from '../../components/card/card';
 import { Offer } from '../../types/offers';
@@ -12,7 +12,7 @@ function CardList({offers}: CardListProps): JSX.Element {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const pathname = location.pathname;
-  // const [card, setCard] = useState(0);
+  const favoritePathMatch = useMatch('/offer/:id');
 
   return (
     <>
@@ -22,7 +22,7 @@ function CardList({offers}: CardListProps): JSX.Element {
           {
             'cities__card': pathname === '/',
             'favorites__card': pathname === '/favorites',
-            'near-places__card':pathname === '/offer/:id'
+            'near-places__card':favoritePathMatch?.params.id
           }
         ) }
         key={offer.id} onMouseEnter={()=>{dispatch(selectCard({card:offer}));}} onMouseLeave={()=>{dispatch(selectCard({card:null}));}}

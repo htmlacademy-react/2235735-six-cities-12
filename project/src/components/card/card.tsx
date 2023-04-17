@@ -2,7 +2,7 @@ import cn from 'classnames';
 import { Link, useLocation } from 'react-router-dom';
 import { Offer } from '../../types/offers';
 import { useAppDispatch } from '../../hooks';
-import { fetchOfferDetailsAction } from '../../store/api-action';
+import { fetchOfferDetailsAction, fetchOfferCommentsAction, fetchOfferNearPlacesAction } from '../../store/api-action';
 
 type CardProps = {
   offer : Offer;
@@ -14,6 +14,8 @@ function Card ({offer}:CardProps): JSX.Element {
   const dispatch = useAppDispatch();
   const onClick = ()=>{
     dispatch(fetchOfferDetailsAction(offer));
+    dispatch(fetchOfferCommentsAction(offer));
+    dispatch(fetchOfferNearPlacesAction(offer));
   };
 
   return (

@@ -2,13 +2,15 @@ import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.js';
 import { Offer } from '../types/offers.js';
-import {loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, filterCards, setUserData, setOfferDetails} from './action';
+import {loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, filterCards, setUserData, setOfferDetails, setOfferComments, setOfferNearPlaces} from './action';
 import {saveToken, dropToken} from '../services/token';
 import {APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR} from '../const';
 import {AuthData} from '../types/auth-data';
 import {UserData} from '../types/user-data';
 import {store} from './';
 import { DEFAULT_CITY } from '../const';
+import { Comment } from '../types/comments.js';
+import { CommentData } from '../types/comment-data.js';
 
 export const clearErrorAction = createAsyncThunk(
   'clearError',
@@ -86,8 +88,42 @@ export const fetchOfferDetailsAction = createAsyncThunk<void, Offer, {
   'data/fetchOfferDetails',
   async ({id}, {dispatch, extra: api}) => {
     const {data} = await api.get<Offer>(`${APIRoute.OfferDetails}${id}`);
-
     dispatch(setOfferDetails(data));
+  },
+);
 
+export const fetchOfferCommentsAction = createAsyncThunk<void, Offer, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchOfferComments',
+  async ({id}, {dispatch, extra: api}) => {
+    const {data} = await api.get<Comment[]>(`${APIRoute.OfferComments}${id}`);
+    dispatch(setOfferComments(data));
+  },
+);
+
+export const fetchOfferNearPlacesAction = createAsyncThunk<void, Offer, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchOfferNearPlaces',
+  async ({id}, {dispatch, extra: api}) => {
+    const {data} = await api.get<Offer[]>(`${APIRoute.OfferNearPlaces}${id}/nearby`);
+    dispatch(setOfferNearPlaces(data));
+  },
+);
+
+export const commentAction = createAsyncThunk<void, CommentData, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'comment',
+  async ({rating, comment, offerID}, {dispatch, extra: api}) => {
+    const {data} = await api.post<Comment[]>(`${APIRoute.OfferComments}${offerID}`, {rating, comment});
+    dispatch(setOfferComments(data));
   },
 );

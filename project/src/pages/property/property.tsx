@@ -4,20 +4,22 @@ import Form from '../../components/form/form';
 import Map from '../../components/map/map';
 import ReviewList from '../../components/review-list/review-list';
 import { Offer } from '../../types/offers';
-import { Comment } from '../../types/comments';
 import { useAppSelector } from '../../hooks';
+import { AuthorizationStatus } from '../../const';
 
 type PropertyProps = {
   offers : Offer[];
-  comments: Comment[];
 }
 
-function Property({offers, comments }: PropertyProps): JSX.Element {
+function Property({offers }: PropertyProps): JSX.Element {
   const city = useAppSelector((state) => state.city);
+  const comments = useAppSelector((state) => state.offerComments);
+  const nearPlaces = useAppSelector((state) => state.offerNearPlaces);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const offerDetails = useAppSelector((state) => state.offerDetails);
-  const {bedrooms, description, isPremium, title, rating, price, maxAdults, type} = offerDetails;
+  const {bedrooms, description, isPremium, title, rating, price, maxAdults, type, images, goods, host:{avatarUrl, isPro, name}} = offerDetails;
+  const imagesToRender:string[] = images.slice(0,6);
 
-  const points:Offer[] = offers.filter((e)=>e.city.name === city.name);
 
   return (
     <div className="page">
@@ -27,24 +29,13 @@ function Property({offers, comments }: PropertyProps): JSX.Element {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/room.jpg" alt="Pic studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Pic studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-02.jpg" alt="Pic studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-03.jpg" alt="Pic studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/studio-01.jpg" alt="Pic studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Pic studio" />
-              </div>
+              {
+                imagesToRender.map((image)=>(
+                  <div className="property__image-wrapper" key={Math.random() * 1000}>
+                    <img className="property__image" src={image} alt="Pic studio" />
+                  </div>
+                ))
+              };
             </div>
           </div>
           <div className="property__container container">
@@ -80,73 +71,44 @@ function Property({offers, comments }: PropertyProps): JSX.Element {
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
-                  <li className="property__inside-item">
-                                        Wi-Fi
-                  </li>
-                  <li className="property__inside-item">
-                                        Washing machine
-                  </li>
-                  <li className="property__inside-item">
-                                        Towels
-                  </li>
-                  <li className="property__inside-item">
-                                        Heating
-                  </li>
-                  <li className="property__inside-item">
-                                        Coffee machine
-                  </li>
-                  <li className="property__inside-item">
-                                        Baby seat
-                  </li>
-                  <li className="property__inside-item">
-                                        Kitchen
-                  </li>
-                  <li className="property__inside-item">
-                                        Dishwasher
-                  </li>
-                  <li className="property__inside-item">
-                                        Cabel TV
-                  </li>
-                  <li className="property__inside-item">
-                                        Fridge
-                  </li>
+                  {
+                    goods.map((good)=>(
+                      <li className="property__inside-item" key={Math.random() * 1000}>
+                        {good}
+                      </li>
+                    ))
+                  }
                 </ul>
               </div>
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
                   <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="property__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar" />
+                    <img className="property__avatar user__avatar" src={avatarUrl} width="74" height="74" alt="Host avatar" />
                   </div>
-                  <span className="property__user-name">
-                                        Angelina
+                  <span className="property__user-name">{name}
                   </span>
-                  <span className="property__user-status">
-                                        Pro
-                  </span>
+                  {isPro && (<span className="property__user-status"></span>)}
                 </div>
                 <div className="property__description">
                   <p className="property__text">{description}</p>
-                  {/* <p className="property__text">
-                                        An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
-                  </p> */}
                 </div>
               </div>
               <section className="property__reviews reviews">
                 <ReviewList comments= {comments}/>
-                <Form/>
+                {authorizationStatus === AuthorizationStatus.Auth && (<Form/>)}
               </section>
             </div>
           </div>
           <section className="property__map map">
-            <Map city = {city} points = {points} mapHeight='579px'/>
+            <Map city = {city} points = {nearPlaces} mapHeight='579px'/>
           </section>
         </section >
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <CardList offers = {offers}/>
+              <CardList offers = {nearPlaces}/>
             </div>
           </section>
         </div>
