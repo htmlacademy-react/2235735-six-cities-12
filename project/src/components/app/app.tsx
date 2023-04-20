@@ -1,21 +1,24 @@
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute } from '../../const';
 import Main from '../../pages/main/main';
 import Login from '../../pages/login/login';
 import Page404 from '../../pages/page404/page404';
 import Favorites from '../../pages/favorites/favorites';
 import Property from '../../pages/property/property';
 import PrivateRoute from '../private-route/private-route';
-import {useAppSelector} from '../../hooks';
+import { useAppSelector } from '../../hooks';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
+import { getOffersDataLoadingStatus, getOffers } from '../../store/offer-data/selectors';
 
 
 function App(): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
-  const offers = useAppSelector((state) => state.offers);
 
-  if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
+  const isOffersDataLoading = useAppSelector(getOffersDataLoadingStatus);
+  const offers = useAppSelector(getOffers);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+
+  if ( isOffersDataLoading) {
     return (
       <LoadingScreen />
     );
@@ -25,7 +28,7 @@ function App(): JSX.Element {
       <Routes>
         <Route
           path={AppRoute.Root}
-          element={<Main/>}
+          element={<Main />}
         />
         <Route
           path={AppRoute.Login}
@@ -35,13 +38,13 @@ function App(): JSX.Element {
           path={AppRoute.Favorites}
           element={
             <PrivateRoute authorizationStatus={authorizationStatus}>
-              <Favorites offers = {offers} />
+              <Favorites/>
             </PrivateRoute>
           }
         />
         <Route
           path={AppRoute.Room}
-          element={<Property offers = {offers} />}
+          element={<Property offers={offers} />}
         />
         <Route
           path="*"

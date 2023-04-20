@@ -21,6 +21,7 @@ export enum APIRoute {
   OfferDetails = '/hotels/',
   OfferComments = '/comments/',
   OfferNearPlaces = '/hotels/',
+  Favorites = '/favorite',
 
 }
 
@@ -33,75 +34,75 @@ export const URL_MARKER_CURRENT =
 export const TIMEOUT_SHOW_ERROR = 2000;
 
 export const DEFAULT_CITY = {
-  location:{
+  location: {
     latitude: 48.864716,
-    longitude:2.349014,
-    zoom:10,
+    longitude: 2.349014,
+    zoom: 10,
   },
   name: 'Paris'
 };
 
-export const CITIES:City[] = [
+export const CITIES: City[] = [
   {
-    location:{
+    location: {
       latitude: 52.3740300,
-      longitude:4.8896900,
-      zoom:10,
+      longitude: 4.8896900,
+      zoom: 10,
     },
     name: 'Amsterdam'
   },
   {
-    location:{
+    location: {
       latitude: 48.864716,
-      longitude:2.349014,
-      zoom:10,
+      longitude: 2.349014,
+      zoom: 10,
     },
     name: 'Paris'
   },
   {
-    location:{
+    location: {
       latitude: 50.935173,
-      longitude:6.953101,
-      zoom:10,
+      longitude: 6.953101,
+      zoom: 10,
     },
     name: 'Cologne'
   },
   {
-    location:{
+    location: {
       latitude: 50.85045,
-      longitude:4.34878,
-      zoom:10,
+      longitude: 4.34878,
+      zoom: 10,
     },
     name: 'Brussels'
   },
   {
-    location:{
+    location: {
       latitude: 53.551086,
-      longitude:9.993682,
-      zoom:10,
+      longitude: 9.993682,
+      zoom: 10,
     },
     name: 'Hamburg'
   },
   {
-    location:{
+    location: {
       latitude: 51.233334,
-      longitude:6.783333,
-      zoom:10,
+      longitude: 6.783333,
+      zoom: 10,
     },
     name: 'Dusseldorf'
   }
 ];
 
-export const UNKNOWN_USER:UserData = {
-  avatarUrl:'',
+export const UNKNOWN_USER: UserData = {
+  avatarUrl: '',
   email: '',
   id: null,
   isPro: false,
-  name:'',
-  token:''
+  name: '',
+  token: ''
 };
 
-export const UNKNOWN_OFFER:Offer = {
+export const UNKNOWN_OFFER: Offer = {
   bedrooms: 0,
   city: {
     location: {
@@ -129,7 +130,7 @@ export const UNKNOWN_OFFER:Offer = {
   isPremium: false,
   location: {
     latitude: 0,
-    longitude:0,
+    longitude: 0,
     zoom: 0
   },
   maxAdults: 0,
@@ -140,3 +141,8 @@ export const UNKNOWN_OFFER:Offer = {
   type: ''
 };
 
+export enum NameSpace {
+  Data = 'DATA',
+  App = 'APP',
+  User = 'USER',
+}

@@ -1,16 +1,17 @@
 import { useRef, useEffect } from 'react';
 import useMap from '../../hooks/useMap';
-import {Icon, Marker} from 'leaflet';
-import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../const';
+import { Icon, Marker } from 'leaflet';
+import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 import 'leaflet/dist/leaflet.css';
 import { City, Offer } from '../../types/offers';
 import { useAppSelector } from '../../hooks';
+import { getSelectedPoint } from '../../store/app-process/selectors';
 
 type MapProps = {
-    city: City;
-    points: Offer[];
-    mapHeight: string;
-  };
+  city: City;
+  points: Offer[];
+  mapHeight: string;
+};
 
 const defaultCustomIcon = new Icon({
   iconUrl: URL_MARKER_DEFAULT,
@@ -24,8 +25,8 @@ const currentCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-function Map({city, points,mapHeight}:MapProps):JSX.Element{
-  const selectedPoint = useAppSelector((state) => state.selectedPoint);
+function Map({ city, points, mapHeight }: MapProps): JSX.Element {
+  const selectedPoint = useAppSelector(getSelectedPoint);
   const mapRef = useRef(null);
   const map = useMap(mapRef, city, points);
   useEffect(() => {
@@ -48,7 +49,7 @@ function Map({city, points,mapHeight}:MapProps):JSX.Element{
   }, [map, points, selectedPoint]);
 
   return (
-    <div style={{height: mapHeight}} ref={mapRef}></div>
+    <div style={{height: '100%', minHeight: '500px', width: '100%', maxWidth: '1144px', margin: '0 auto 40px auto'}} ref={mapRef}></div>
   );
 }
 

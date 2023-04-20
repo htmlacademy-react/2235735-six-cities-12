@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, MutableRefObject } from 'react';
-import { Map, TileLayer,Marker, LayerGroup } from 'leaflet';
+import { Map, TileLayer, Marker, LayerGroup } from 'leaflet';
 import { City, Offer } from '../types/offers';
 
 function useMap(
@@ -12,17 +12,22 @@ function useMap(
   useEffect(() => {
 
     if (isRenderedRef.current && map) {
-      const markers:Marker[] = points.map((point)=>{
-        const marker = new Marker({
-          lat: point.location.latitude,
-          lng: point.location.longitude
-        });
-        return marker;
+      map.eachLayer((layer) => {
+        if (layer instanceof Marker) {
+          layer.remove();
+        }
       });
-      const layerGroup = new LayerGroup(markers);
-      layerGroup.addTo(map);
-      layerGroup.clearLayers();
-      map.setView([city.location.latitude, city.location.longitude], map.getZoom(), );
+      // const markers: Marker[] = points.map((point) => {
+      //   const marker = new Marker({
+      //     lat: point.location.latitude,
+      //     lng: point.location.longitude
+      //   });
+      //   return marker;
+      // });
+      // const layerGroup = new LayerGroup(markers);
+      // layerGroup.addTo(map);
+      // layerGroup.clearLayers();
+      map.setView([city.location.latitude, city.location.longitude], map.getZoom(),);
     }
 
 
@@ -39,7 +44,7 @@ function useMap(
         'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
         {
           attribution:
-              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
         }
       );
 

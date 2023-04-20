@@ -1,8 +1,8 @@
 import { MouseEvent } from 'react';
 import { Offer, City } from '../../types/offers';
 import { useAppDispatch } from '../../hooks';
-import { filterCards, sortCards, sortType } from '../../store/action';
-
+import { sortCards, filterCards} from '../../store/offer-data/offer-data';
+import { sortType } from '../../store/app-process/app-process';
 type SortProps = {
   city: City;
   offers: Offer[];

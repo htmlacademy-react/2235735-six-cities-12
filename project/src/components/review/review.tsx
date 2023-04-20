@@ -1,11 +1,11 @@
 import { Comment } from '../../types/comments';
 
 type ReviewProps = {
-  review : Comment;
+  review: Comment;
 }
 
-function Review ({review}:ReviewProps):JSX.Element {
-  const {rating, comment, date, user: {avatarUrl, name}} = review;
+function Review({ review }: ReviewProps): JSX.Element {
+  const { rating, comment, date, user: { avatarUrl, name } } = review;
   return (
     <>
       <div className="reviews__user user">

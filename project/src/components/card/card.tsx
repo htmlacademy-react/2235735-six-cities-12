@@ -1,21 +1,36 @@
 import cn from 'classnames';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Offer } from '../../types/offers';
-import { useAppDispatch } from '../../hooks';
-import { fetchOfferDetailsAction, fetchOfferCommentsAction, fetchOfferNearPlacesAction } from '../../store/api-action';
-
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchOfferDetailsAction, fetchOfferCommentsAction, fetchOfferNearPlacesAction, addFavoritesAction, removeFavoritesAction, fetchFavoritesAction } from '../../store/api-action';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { AppRoute, AuthorizationStatus } from '../../const';
 type CardProps = {
-  offer : Offer;
+  offer: Offer;
 }
 
-function Card ({offer}:CardProps): JSX.Element {
+function Card({ offer }: CardProps): JSX.Element {
   const location = useLocation();
   const pathname = location.pathname;
   const dispatch = useAppDispatch();
-  const onClick = ()=>{
+  const onClick = () => {
     dispatch(fetchOfferDetailsAction(offer));
     dispatch(fetchOfferCommentsAction(offer));
     dispatch(fetchOfferNearPlacesAction(offer));
+  };
+  const navigate = useNavigate();
+  const userAuthStatus = useAppSelector(getAuthorizationStatus);
+  const handleFavorites = ()=>{
+    userAuthStatus !== AuthorizationStatus.Auth ? navigate(AppRoute.Login) : addOrRemoveFavorites(offer);
+  };
+
+  const addOrRemoveFavorites = (card:Offer)=>{
+    if (!card.isFavorite){
+      dispatch (addFavoritesAction(card));
+    } else {
+      dispatch (removeFavoritesAction(card));
+    }
+    dispatch(fetchFavoritesAction());
   };
 
   return (
@@ -33,13 +48,13 @@ function Card ({offer}:CardProps): JSX.Element {
       )}
       >
         <Link to='/offer/:{offer.id}' onClick={onClick}>
-          <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place pic"/>
+          <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place pic" />
         </Link>
       </div>
       <div className={cn(
         'place-card__info',
         {
-          'favorites__card-info':pathname === '/favorites'
+          'favorites__card-info': pathname === '/favorites'
         }
       )}
       >
@@ -48,7 +63,13 @@ function Card ({offer}:CardProps): JSX.Element {
             <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
+          <button className={cn(
+            'place-card__bookmark-button button',
+            {
+              'place-card__bookmark-button--active': offer.isFavorite
+            }
+          )} type="button" onClick={handleFavorites}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -57,7 +78,7 @@ function Card ({offer}:CardProps): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: '80%'}}>{offer.rating}</span>
+            <span style={{ width: '80%' }}>{offer.rating}</span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
