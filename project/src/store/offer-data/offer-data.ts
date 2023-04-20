@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NameSpace, DEFAULT_CITY,UNKNOWN_OFFER } from '../../const';
 import { OfferData } from '../../types/state';
 import { City, Offer } from '../../types/offers';
-import { fetchOffersAction, fetchOfferDetailsAction, fetchOfferCommentsAction, fetchOfferNearPlacesAction, commentAction, fetchFavoritesAction} from '../api-action';
+import { fetchOffersAction, fetchOfferDetailsAction, fetchOfferCommentsAction, fetchOfferNearPlacesAction, commentAction,fetchFavoritesAction, addFavoritesAction, removeFavoritesAction} from '../api-action';
 
 const initialState: OfferData = {
   error:false,
@@ -64,6 +64,31 @@ export const offerData = createSlice({
       })
       .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
         state.favorites = action.payload;
+      })
+      .addCase(addFavoritesAction.fulfilled, (state, action) => {
+        state.favorites.push(action.payload);
+        // const newOffers = state.offers.map((offer)=> {
+        //   if (offer.id === action.payload.id) {
+        //     offer.isFavorite = true;
+        //   }
+        //   return offer;
+        // });
+        // state.offers = newOffers;
+        // const city = state.city;
+        // filterCards({city:city});
+      })
+      .addCase(removeFavoritesAction.fulfilled, (state, action) => {
+        const newFavorites = state.favorites.filter((offer) => (offer.id !== action.payload.id));
+        state.favorites = newFavorites;
+        // const newOffers = state.offers.map((offer)=> {
+        //   if (offer.id === action.payload.id) {
+        //     offer.isFavorite = false;
+        //   }
+        //   return offer;
+        // });
+        // state.offers = newOffers;
+        // const city = state.city;
+        // filterCards({city:city});
       });
   }
 });

@@ -2,7 +2,7 @@ import cn from 'classnames';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Offer } from '../../types/offers';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchOfferDetailsAction, fetchOfferCommentsAction, fetchOfferNearPlacesAction, addFavoritesAction, removeFavoritesAction, fetchFavoritesAction } from '../../store/api-action';
+import { fetchOfferDetailsAction, fetchOfferCommentsAction, fetchOfferNearPlacesAction, addFavoritesAction, removeFavoritesAction } from '../../store/api-action';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { AppRoute, AuthorizationStatus } from '../../const';
 type CardProps = {
@@ -23,14 +23,14 @@ function Card({ offer }: CardProps): JSX.Element {
   const handleFavorites = ()=>{
     userAuthStatus !== AuthorizationStatus.Auth ? navigate(AppRoute.Login) : addOrRemoveFavorites(offer);
   };
-
-  const addOrRemoveFavorites = (card:Offer)=>{
+  const addOrRemoveFavorites = (card:Offer) => {
     if (!card.isFavorite){
       dispatch (addFavoritesAction(card));
+
     } else {
       dispatch (removeFavoritesAction(card));
+
     }
-    dispatch(fetchFavoritesAction());
   };
 
   return (

@@ -120,24 +120,26 @@ export const fetchFavoritesAction = createAsyncThunk<Offer[], undefined, {
   },
 );
 
-export const addFavoritesAction = createAsyncThunk<void, Offer, {
+export const addFavoritesAction = createAsyncThunk<Offer, Offer, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'data/addFavorites',
   async ({id}, { dispatch, extra: api }) => {
-    await api.post<Offer[]>(`${APIRoute.Favorites}/${id}/1`);
+    const {data} = await api.post<Offer>(`${APIRoute.Favorites}/${id}/1`);
+    return data;
   },
 );
 
-export const removeFavoritesAction = createAsyncThunk<void, Offer, {
+export const removeFavoritesAction = createAsyncThunk<Offer, Offer, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'data/removeFavorites',
   async ({id}, { dispatch, extra: api }) => {
-    await api.post<Offer[]>(`${APIRoute.Favorites}/${id}/0`);
+    const {data} = await api.post<Offer>(`${APIRoute.Favorites}/${id}/0`);
+    return data;
   },
 );
