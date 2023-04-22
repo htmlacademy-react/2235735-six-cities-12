@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-function UserNotLogged ():JSX.Element {
+function UserNotLogged(): JSX.Element {
   return (
     <li className="header__nav-item user">
       <Link className="header__nav-link header__nav-link--profile" to="/login">

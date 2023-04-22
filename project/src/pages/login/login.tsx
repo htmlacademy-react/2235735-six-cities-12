@@ -1,20 +1,21 @@
 import { Link } from 'react-router-dom';
-import {useRef, FormEvent} from 'react';
-import {useNavigate} from 'react-router-dom';
-import {useAppDispatch} from '../../hooks';
-import {loginAction} from '../../store/api-action';
-import {AuthData} from '../../types/auth-data';
-import {AppRoute} from '../../const';
+import { useRef, FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks';
+import { loginAction } from '../../store/api-action';
+import { AuthData } from '../../types/auth-data';
+import { AppRoute } from '../../const';
 import { AuthorizationStatus } from '../../const';
-import {useAppSelector} from '../../hooks';
+import { useAppSelector } from '../../hooks';
 import Main from '../main/main';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 function Login(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   if (authorizationStatus === AuthorizationStatus.Auth) {
     return (
@@ -46,7 +47,7 @@ function Login(): JSX.Element {
           <div className="header__wrapper">
             <div className="header__left">
               <Link className="header__logo-link" to="/">
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
+                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </Link>
             </div>
           </div>
@@ -60,11 +61,11 @@ function Login(): JSX.Element {
             <form className="login__form form" onSubmit={handleSubmit} method="post" action=''>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
-                <input className="login__input form__input" ref={loginRef} type="email" name="email" placeholder="Email" required/>
+                <input className="login__input form__input" ref={loginRef} type="email" name="email" placeholder="Email" required />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input className="login__input form__input" ref={passwordRef} type="password" name="password" placeholder="Password" required/>
+                <input className="login__input form__input" ref={passwordRef} type="password" name="password" placeholder="Password" required />
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>

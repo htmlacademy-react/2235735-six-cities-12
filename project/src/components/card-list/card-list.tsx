@@ -1,14 +1,15 @@
-import {useLocation, useMatch} from 'react-router-dom';
+import { useLocation, useMatch } from 'react-router-dom';
 import cn from 'classnames';
 import Card from '../../components/card/card';
 import { Offer } from '../../types/offers';
 import { useAppDispatch } from '../../hooks';
-import { selectCard } from '../../store/action';
+import { selectCard } from '../../store/app-process/app-process';
+
 type CardListProps = {
-    offers: Offer[];
+  offers: Offer[];
 }
 
-function CardList({offers}: CardListProps): JSX.Element {
+function CardList({ offers }: CardListProps): JSX.Element {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const pathname = location.pathname;
@@ -16,16 +17,17 @@ function CardList({offers}: CardListProps): JSX.Element {
 
   return (
     <>
-      {offers.map((offer)=> (
-        <article className={cn(
-          'place-card',
-          {
-            'cities__card': pathname === '/',
-            'favorites__card': pathname === '/favorites',
-            'near-places__card':favoritePathMatch?.params.id
-          }
-        ) }
-        key={offer.id} onMouseEnter={()=>{dispatch(selectCard({card:offer}));}} onMouseLeave={()=>{dispatch(selectCard({card:null}));}}
+      {offers.map((offer) => (
+        <article
+          className={cn(
+            'place-card',
+            {
+              'cities__card': pathname === '/',
+              'favorites__card': pathname === '/favorites',
+              'near-places__card': favoritePathMatch?.params.id
+            }
+          )}
+          key={offer.id} onMouseEnter={() => { dispatch(selectCard({ card: offer })); }} onMouseLeave={() => { dispatch(selectCard({ card: null })); }}
         >
           <Card offer={offer} />
         </article>

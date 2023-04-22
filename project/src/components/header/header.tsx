@@ -1,12 +1,7 @@
-import {Link} from 'react-router-dom';
-import { Offer } from '../../types/offers';
+import { Link } from 'react-router-dom';
 import UserAuthStatus from '../user-authentication-status/user-authentication-status';
 
-type HeaderProps = {
-  offers: Offer[];
-}
-
-function Header({ offers }: HeaderProps): JSX.Element {
+function Header(): JSX.Element {
   return (
     <header className="header">
       <div className="container">
@@ -18,7 +13,7 @@ function Header({ offers }: HeaderProps): JSX.Element {
           </div>
           <nav className="header__nav">
             <ul className="header__nav-list">
-              <UserAuthStatus/>
+              <UserAuthStatus />
             </ul>
           </nav>
         </div>

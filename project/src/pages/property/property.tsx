@@ -6,32 +6,34 @@ import ReviewList from '../../components/review-list/review-list';
 import { Offer } from '../../types/offers';
 import { useAppSelector } from '../../hooks';
 import { AuthorizationStatus } from '../../const';
+import { getOfferComments, getOfferNearPlaces, getOfferDetails } from '../../store/offer-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { getCity } from '../../store/offer-data/selectors';
 
 type PropertyProps = {
-  offers : Offer[];
+  offers: Offer[];
 }
 
-function Property({offers }: PropertyProps): JSX.Element {
-  const city = useAppSelector((state) => state.city);
-  const comments = useAppSelector((state) => state.offerComments);
-  const nearPlaces = useAppSelector((state) => state.offerNearPlaces);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const offerDetails = useAppSelector((state) => state.offerDetails);
-  const {bedrooms, description, isPremium, title, rating, price, maxAdults, type, images, goods, host:{avatarUrl, isPro, name}} = offerDetails;
-  const imagesToRender:string[] = images.slice(0,6);
+function Property({ offers }: PropertyProps): JSX.Element {
+  const city = useAppSelector(getCity);
+  const comments = useAppSelector(getOfferComments);
+  const nearPlaces = useAppSelector(getOfferNearPlaces);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const offerDetails = useAppSelector(getOfferDetails);
+  const { bedrooms, description, isPremium, title, rating, price, maxAdults, type, images, goods, host: { avatarUrl, isPro, name } } = offerDetails;
+  const imagesToRender: string[] = images.slice(0, 6);
 
 
   return (
     <div className="page">
-      <Header offers={offers}></Header>
-
+      <Header />
       <main className="page__main page__main--property">
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
               {
-                imagesToRender.map((image)=>(
-                  <div className="property__image-wrapper" key={Math.random() * 1000}>
+                imagesToRender.map((image) => (
+                  <div className="property__image-wrapper" key={image}>
                     <img className="property__image" src={image} alt="Pic studio" />
                   </div>
                 ))
@@ -72,8 +74,8 @@ function Property({offers }: PropertyProps): JSX.Element {
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
                   {
-                    goods.map((good)=>(
-                      <li className="property__inside-item" key={Math.random() * 1000}>
+                    goods.map((good) => (
+                      <li className="property__inside-item" key={good}>
                         {good}
                       </li>
                     ))
@@ -95,20 +97,20 @@ function Property({offers }: PropertyProps): JSX.Element {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <ReviewList comments= {comments}/>
-                {authorizationStatus === AuthorizationStatus.Auth && (<Form/>)}
+                <ReviewList comments={comments} />
+                {authorizationStatus === AuthorizationStatus.Auth && (<Form />)}
               </section>
             </div>
           </div>
           <section className="property__map map">
-            <Map city = {city} points = {nearPlaces} mapHeight='579px'/>
+            <Map city={city} points={nearPlaces} mapHeight='579px' />
           </section>
         </section >
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <CardList offers = {nearPlaces}/>
+              <CardList offers={nearPlaces} />
             </div>
           </section>
         </div>
