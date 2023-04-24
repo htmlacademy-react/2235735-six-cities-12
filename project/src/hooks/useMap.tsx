@@ -17,16 +17,6 @@ function useMap(
           layer.remove();
         }
       });
-      // const markers: Marker[] = points.map((point) => {
-      //   const marker = new Marker({
-      //     lat: point.location.latitude,
-      //     lng: point.location.longitude
-      //   });
-      //   return marker;
-      // });
-      // const layerGroup = new LayerGroup(markers);
-      // layerGroup.addTo(map);
-      // layerGroup.clearLayers();
       map.setView([city.location.latitude, city.location.longitude], map.getZoom(),);
     }
 

@@ -6,7 +6,7 @@ import { fetchOfferDetailsAction, fetchOfferCommentsAction, fetchOfferNearPlaces
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { selectCard } from '../../store/app-process/app-process';
-import { getRating } from '../../untils/utils';
+import { getRating } from '../../utils/utils';
 type CardProps = {
   offer: Offer;
 }

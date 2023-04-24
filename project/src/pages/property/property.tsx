@@ -13,7 +13,7 @@ import cn from 'classnames';
 import { useNavigate } from 'react-router-dom';
 import { addFavoritesAction, removeFavoritesAction } from '../../store/api-action';
 import { Comment } from '../../types/comments';
-import { getRating } from '../../untils/utils';
+import { getRating } from '../../utils/utils';
 
 function Property(): JSX.Element {
   const city = useAppSelector(getCity);

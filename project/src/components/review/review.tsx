@@ -1,6 +1,6 @@
 import { Comment } from '../../types/comments';
 import { DATE_OPTIONS } from '../../const';
-import { getRating } from '../../untils/utils';
+import { getRating } from '../../utils/utils';
 
 type ReviewProps = {
   review: Comment;
