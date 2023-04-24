@@ -10,7 +10,6 @@ import { getSelectedPoint } from '../../store/app-process/selectors';
 type MapProps = {
   city: City;
   points: Offer[];
-  mapHeight: string;
 };
 
 const defaultCustomIcon = new Icon({
@@ -25,7 +24,7 @@ const currentCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-function Map({ city, points, mapHeight }: MapProps): JSX.Element {
+function Map({ city, points }: MapProps): JSX.Element {
   const selectedPoint = useAppSelector(getSelectedPoint);
   const mapRef = useRef(null);
   const map = useMap(mapRef, city, points);

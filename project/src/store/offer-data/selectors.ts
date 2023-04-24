@@ -12,4 +12,5 @@ export const getOfferDetails = (state: State): Offer => state[NameSpace.Data].of
 export const getErrorStatus = (state: State): boolean => state[NameSpace.Data].error;
 export const getCity = (state: State): City => state[NameSpace.Data].city;
 export const getFavorites = (state: State): Offer[] => state[NameSpace.Data].favorites;
+export const getPostStatus = (state: State): string => state[NameSpace.Data].postStatus;
 

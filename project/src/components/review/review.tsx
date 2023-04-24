@@ -1,4 +1,6 @@
 import { Comment } from '../../types/comments';
+import { DATE_OPTIONS } from '../../const';
+import { getRating } from '../../untils/utils';
 
 type ReviewProps = {
   review: Comment;
@@ -6,6 +8,8 @@ type ReviewProps = {
 
 function Review({ review }: ReviewProps): JSX.Element {
   const { rating, comment, date, user: { avatarUrl, name } } = review;
+  const commentDate = new Date(Date.parse(date));
+
   return (
     <>
       <div className="reviews__user user">
@@ -17,12 +21,12 @@ function Review({ review }: ReviewProps): JSX.Element {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{ width: '80%' }}></span>
+            <span style={{ width: getRating(rating) }}></span>
             <span className="visually-hidden">{rating}</span>
           </div>
         </div>
         <p className="reviews__text">{comment}</p>
-        <time className="reviews__time" dateTime={date}>{date}</time>
+        <time className="reviews__time" dateTime={date}>{commentDate.toLocaleDateString('en-US', DATE_OPTIONS)}</time>
       </div>
     </>
   );

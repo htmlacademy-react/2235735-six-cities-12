@@ -10,7 +10,7 @@ const initialState: AppProcess = {
 
 export const appProcess = createSlice({
   name: NameSpace.App,
-  initialState,
+  initialState:initialState,
   reducers: {
     sortType: (state, action: PayloadAction<{type:string}>) => {
       const { type } = action.payload;

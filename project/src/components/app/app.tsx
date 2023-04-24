@@ -9,13 +9,12 @@ import PrivateRoute from '../private-route/private-route';
 import { useAppSelector } from '../../hooks';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
-import { getOffersDataLoadingStatus, getOffers } from '../../store/offer-data/selectors';
+import { getOffersDataLoadingStatus } from '../../store/offer-data/selectors';
 
 
 function App(): JSX.Element {
 
   const isOffersDataLoading = useAppSelector(getOffersDataLoadingStatus);
-  const offers = useAppSelector(getOffers);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   if ( isOffersDataLoading) {
@@ -44,7 +43,7 @@ function App(): JSX.Element {
         />
         <Route
           path={AppRoute.Room}
-          element={<Property offers={offers} />}
+          element={<Property />}
         />
         <Route
           path="*"
