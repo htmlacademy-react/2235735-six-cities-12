@@ -4,25 +4,52 @@ import Form from '../../components/form/form';
 import Map from '../../components/map/map';
 import ReviewList from '../../components/review-list/review-list';
 import { Offer } from '../../types/offers';
-import { useAppSelector } from '../../hooks';
-import { AuthorizationStatus } from '../../const';
+import { useAppSelector,useAppDispatch } from '../../hooks';
+import { AuthorizationStatus, AppRoute } from '../../const';
 import { getOfferComments, getOfferNearPlaces, getOfferDetails } from '../../store/offer-data/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { getCity } from '../../store/offer-data/selectors';
+import cn from 'classnames';
+import { useNavigate } from 'react-router-dom';
+import { addFavoritesAction, removeFavoritesAction } from '../../store/api-action';
+import { Comment } from '../../types/comments';
+import { getRating } from '../../utils/utils';
 
-type PropertyProps = {
-  offers: Offer[];
-}
-
-function Property({ offers }: PropertyProps): JSX.Element {
+function Property(): JSX.Element {
   const city = useAppSelector(getCity);
   const comments = useAppSelector(getOfferComments);
-  const nearPlaces = useAppSelector(getOfferNearPlaces);
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const sortCutComments = (revies:Comment[]):Comment[]=>{
+    const sortResult: Comment[] = revies.slice().sort((review1, review2) =>Date.parse(review2.date) - Date.parse(review1.date) );
+    const cutResult = sortResult.slice(0,10);
+    return cutResult;
+  };
   const offerDetails = useAppSelector(getOfferDetails);
-  const { bedrooms, description, isPremium, title, rating, price, maxAdults, type, images, goods, host: { avatarUrl, isPro, name } } = offerDetails;
-  const imagesToRender: string[] = images.slice(0, 6);
+  const nearPlaces = useAppSelector(getOfferNearPlaces);
+  const nearMapPlaces:Offer[] = [];
+  nearMapPlaces.push(offerDetails);
+  nearPlaces.forEach((place) => nearMapPlaces.push(place));
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
+  const { bedrooms, description, isPremium, title, rating, price, maxAdults, type, images, goods, host: { avatarUrl, isPro, name }, isFavorite } = offerDetails;
+  const imagesToRender: string[] = images.slice(0, 6);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const userAuthStatus = useAppSelector(getAuthorizationStatus);
+  const handleFavorites = ()=>{
+    userAuthStatus !== AuthorizationStatus.Auth ? navigate(AppRoute.Login) : addOrRemoveFavorites(offerDetails);
+  };
+  const addOrRemoveFavorites = (card:Offer) => {
+    if (!card.isFavorite){
+      dispatch (addFavoritesAction(card));
+    } else {
+      dispatch (removeFavoritesAction(card));
+    }
+  };
+
+  const capitalizeFirstLetter = (string:string):string => {
+    if (!string) {return string;}
+    return string[0].toUpperCase() + string.slice(1);
+  };
 
   return (
     <div className="page">
@@ -47,7 +74,13 @@ function Property({ offers }: PropertyProps): JSX.Element {
               </div>
               <div className="property__name-wrapper">
                 <h1 className="property__name">{title}</h1>
-                <button className="property__bookmark-button button" type="button">
+                <button className={cn(
+                  'property__bookmark-button button',
+                  {
+                    'property__bookmark-button--active': isFavorite
+                  }
+                )} type="button" onClick={handleFavorites}
+                >
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
@@ -56,13 +89,13 @@ function Property({ offers }: PropertyProps): JSX.Element {
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{ width: '80%' }}></span>
+                  <span style={{ width: getRating(rating) }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="property__rating-value rating__value">{rating}</span>
+                <span className="property__rating-value rating__value"></span>
               </div>
               <ul className="property__features">
-                <li className="property__feature property__feature--entire">{type}</li>
+                <li className="property__feature property__feature--entire">{capitalizeFirstLetter(type)}</li>
                 <li className="property__feature property__feature--bedrooms">{bedrooms} Bedrooms</li>
                 <li className="property__feature property__feature--adults"> Max {maxAdults} adults</li>
               </ul>
@@ -97,13 +130,13 @@ function Property({ offers }: PropertyProps): JSX.Element {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <ReviewList comments={comments} />
+                <ReviewList comments={sortCutComments(comments)} />
                 {authorizationStatus === AuthorizationStatus.Auth && (<Form />)}
               </section>
             </div>
           </div>
           <section className="property__map map">
-            <Map city={city} points={nearPlaces} mapHeight='579px' />
+            <Map city={city} points={nearMapPlaces} />
           </section>
         </section >
         <div className="container">

@@ -13,7 +13,7 @@ function CardList({ offers }: CardListProps): JSX.Element {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const pathname = location.pathname;
-  const favoritePathMatch = useMatch('/offer/:id');
+  const propertyPathMatch = useMatch('/offer/:id');
 
   return (
     <>
@@ -24,10 +24,10 @@ function CardList({ offers }: CardListProps): JSX.Element {
             {
               'cities__card': pathname === '/',
               'favorites__card': pathname === '/favorites',
-              'near-places__card': favoritePathMatch?.params.id
+              'near-places__card': propertyPathMatch?.params.id
             }
           )}
-          key={offer.id} onMouseEnter={() => { dispatch(selectCard({ card: offer })); }} onMouseLeave={() => { dispatch(selectCard({ card: null })); }}
+          key={offer.id} onMouseEnter={() => { if(!propertyPathMatch?.params.id) {(dispatch(selectCard({ card: offer })));} }} onMouseLeave={() => { if(!propertyPathMatch?.params.id){(dispatch(selectCard({ card: null })));} }}
         >
           <Card offer={offer} />
         </article>

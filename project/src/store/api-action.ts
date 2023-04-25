@@ -9,6 +9,7 @@ import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { Comment } from '../types/comments.js';
 import { CommentData } from '../types/comment-data.js';
+import { showError } from './offer-data/offer-data';
 
 
 export const fetchOffersAction = createAsyncThunk<Offer[], undefined, {
@@ -18,8 +19,13 @@ export const fetchOffersAction = createAsyncThunk<Offer[], undefined, {
 }>(
   'data/fetchOffers',
   async (_arg, { dispatch, extra: api }) => {
-    const { data } = await api.get<Offer[]>(APIRoute.Offers);
-    return data;
+    try {
+      const { data } = await api.get<Offer[]>(APIRoute.Offers);
+      return data;
+    } catch (err) {
+      dispatch(showError({ error: true }));
+      throw err;
+    }
   },
 );
 
@@ -41,10 +47,15 @@ export const loginAction = createAsyncThunk<UserData, AuthData, {
 }>(
   'user/login',
   async ({ login: email, password }, { dispatch, extra: api }) => {
-    const { data } = await api.post<UserData>(APIRoute.Login, { email, password });
-    saveToken(data.token);
-    return data;
-
+    try {
+      const { data } = await api.post<UserData>(APIRoute.Login, { email, password });
+      saveToken(data.token);
+      dispatch(fetchFavoritesAction());
+      return data;
+    } catch (err) {
+      dispatch(showError({ error: true }));
+      throw err;
+    }
   },
 );
 
@@ -55,8 +66,13 @@ export const logoutAction = createAsyncThunk<void, undefined, {
 }>(
   'user/logout',
   async (_arg, { dispatch, extra: api }) => {
-    await api.delete(APIRoute.Logout);
-    dropToken();
+    try {
+      await api.delete(APIRoute.Logout);
+      dropToken();
+    } catch (err) {
+      dispatch(showError({ error: true }));
+      throw err;
+    }
   },
 );
 
@@ -67,8 +83,13 @@ export const fetchOfferDetailsAction = createAsyncThunk<Offer, Offer, {
 }>(
   'data/fetchOfferDetails',
   async ({ id }, { dispatch, extra: api }) => {
-    const { data } = await api.get<Offer>(`${APIRoute.OfferDetails}${id}`);
-    return data;
+    try {
+      const { data } = await api.get<Offer>(`${APIRoute.OfferDetails}${id}`);
+      return data;
+    } catch (err) {
+      dispatch(showError({ error: true }));
+      throw err;
+    }
   },
 );
 
@@ -79,8 +100,13 @@ export const fetchOfferCommentsAction = createAsyncThunk<Comment[], Offer, {
 }>(
   'data/fetchOfferComments',
   async ({ id }, { dispatch, extra: api }) => {
-    const { data } = await api.get<Comment[]>(`${APIRoute.OfferComments}${id}`);
-    return data;
+    try {
+      const { data } = await api.get<Comment[]>(`${APIRoute.OfferComments}${id}`);
+      return data;
+    } catch (err) {
+      dispatch(showError({ error: true }));
+      throw err;
+    }
   },
 );
 
@@ -91,8 +117,13 @@ export const fetchOfferNearPlacesAction = createAsyncThunk<Offer[], Offer, {
 }>(
   'data/fetchOfferNearPlaces',
   async ({ id }, { dispatch, extra: api }) => {
-    const { data } = await api.get<Offer[]>(`${APIRoute.OfferNearPlaces}${id}/nearby`);
-    return data;
+    try {
+      const { data } = await api.get<Offer[]>(`${APIRoute.OfferNearPlaces}${id}/nearby`);
+      return data;
+    } catch (err) {
+      dispatch(showError({ error: true }));
+      throw err;
+    }
   },
 );
 
@@ -103,8 +134,13 @@ export const commentAction = createAsyncThunk<Comment[], CommentData, {
 }>(
   'comment',
   async ({ rating, comment, offerID }, { dispatch, extra: api }) => {
-    const { data } = await api.post<Comment[]>(`${APIRoute.OfferComments}${offerID}`, { rating, comment });
-    return data;
+    try {
+      const { data } = await api.post<Comment[]>(`${APIRoute.OfferComments}${offerID}`, { rating, comment });
+      return data;
+    } catch (err) {
+      dispatch(showError({ error: true }));
+      throw err;
+    }
   },
 );
 
@@ -115,8 +151,13 @@ export const fetchFavoritesAction = createAsyncThunk<Offer[], undefined, {
 }>(
   'data/fetchFavorites',
   async (_arg, { dispatch, extra: api }) => {
-    const { data } = await api.get<Offer[]>(APIRoute.Favorites);
-    return data;
+    try {
+      const { data } = await api.get<Offer[]>(APIRoute.Favorites);
+      return data;
+    } catch (err) {
+      dispatch(showError({ error: true }));
+      throw err;
+    }
   },
 );
 
@@ -126,9 +167,14 @@ export const addFavoritesAction = createAsyncThunk<Offer, Offer, {
   extra: AxiosInstance;
 }>(
   'data/addFavorites',
-  async ({id}, { dispatch, extra: api }) => {
-    const {data} = await api.post<Offer>(`${APIRoute.Favorites}/${id}/1`);
-    return data;
+  async ({ id }, { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.post<Offer>(`${APIRoute.Favorites}/${id}/1`);
+      return data;
+    } catch (err) {
+      dispatch(showError({ error: true }));
+      throw err;
+    }
   },
 );
 
@@ -138,8 +184,13 @@ export const removeFavoritesAction = createAsyncThunk<Offer, Offer, {
   extra: AxiosInstance;
 }>(
   'data/removeFavorites',
-  async ({id}, { dispatch, extra: api }) => {
-    const {data} = await api.post<Offer>(`${APIRoute.Favorites}/${id}/0`);
-    return data;
+  async ({ id }, { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.post<Offer>(`${APIRoute.Favorites}/${id}/0`);
+      return data;
+    } catch (err) {
+      dispatch(showError({ error: true }));
+      throw err;
+    }
   },
 );

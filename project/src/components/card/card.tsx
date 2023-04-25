@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchOfferDetailsAction, fetchOfferCommentsAction, fetchOfferNearPlacesAction, addFavoritesAction, removeFavoritesAction } from '../../store/api-action';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { AppRoute, AuthorizationStatus } from '../../const';
+import { selectCard } from '../../store/app-process/app-process';
+import { getRating } from '../../utils/utils';
 type CardProps = {
   offer: Offer;
 }
@@ -14,6 +16,7 @@ function Card({ offer }: CardProps): JSX.Element {
   const pathname = location.pathname;
   const dispatch = useAppDispatch();
   const onClick = () => {
+    dispatch(selectCard({ card: offer }));
     dispatch(fetchOfferDetailsAction(offer));
     dispatch(fetchOfferCommentsAction(offer));
     dispatch(fetchOfferNearPlacesAction(offer));
@@ -31,6 +34,11 @@ function Card({ offer }: CardProps): JSX.Element {
       dispatch (removeFavoritesAction(card));
 
     }
+  };
+
+  const capitalizeFirstLetter = (string:string):string => {
+    if (!string) {return string;}
+    return string[0].toUpperCase() + string.slice(1);
   };
 
   return (
@@ -78,14 +86,14 @@ function Card({ offer }: CardProps): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: '80%' }}>{offer.rating}</span>
+            <span style={{ width: getRating(offer.rating) }}>{offer.rating}</span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
           <Link to='/offer/:{offer.id}'>{offer.title}</Link>
         </h2>
-        <p className="place-card__type">{offer.type}</p>
+        <p className="place-card__type">{capitalizeFirstLetter(offer.type)}</p>
       </div>
     </>
   );

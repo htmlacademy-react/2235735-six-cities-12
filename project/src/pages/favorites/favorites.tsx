@@ -4,10 +4,18 @@ import { useAppSelector } from '../../hooks';
 import { getFavorites } from '../../store/offer-data/selectors';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
+import { Offer } from '../../types/offers';
 
 
 function Favorites(): JSX.Element {
   const favorites = useAppSelector(getFavorites);
+  const favoritesCitiesSet = new Set<string>();
+  favorites.forEach((offer) => favoritesCitiesSet.add(offer.city.name));
+  const favoritesCities:string[] = [...favoritesCitiesSet];
+  const getFavoritesByCity = (city:string):Offer[] => {
+    const favoritesByCity = favorites.filter((offer)=> (offer.city.name === city));
+    return favoritesByCity;
+  };
 
   return (
     <div className="page">
@@ -38,32 +46,20 @@ function Favorites(): JSX.Element {
               <>
                 <h1 className="favorites__title">Saved listing</h1>
                 <ul className="favorites__list">
-                  {/* {favorites.map((offer)=>(
-                    <li className="favorites__locations-items" key={offer.id}>
+                  {favoritesCities.map((city:string)=>(
+                    <li className="favorites__locations-items" key={city}>
                       <div className="favorites__locations locations locations--current">
                         <div className="locations__item">
                           <a className="locations__item-link" href="/">
-                            <span>{offer.city.name}</span>
+                            <span>{city}</span>
                           </a>
                         </div>
                       </div>
                       <div className="favorites__places">
-                        <CardList offers={favorites} />
+                        <CardList offers={getFavoritesByCity(city)} />
                       </div>
                     </li>
-                  ))} */}
-                  <li className="favorites__locations-items">
-                    <div className="favorites__locations locations locations--current">
-                      <div className="locations__item">
-                        <a className="locations__item-link" href="/">
-                          <span>Amsterdam</span>
-                        </a>
-                      </div>
-                    </div>
-                    <div className="favorites__places">
-                      <CardList offers={favorites} />
-                    </div>
-                  </li>
+                  ))}
                 </ul>
               </>)}
 

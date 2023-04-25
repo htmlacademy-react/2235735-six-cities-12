@@ -26,10 +26,10 @@ export enum APIRoute {
 }
 
 export const URL_MARKER_DEFAULT =
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
+  'img/pin.svg';
 
 export const URL_MARKER_CURRENT =
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
+  'img/pin-active.svg';
 
 export const TIMEOUT_SHOW_ERROR = 2000;
 
@@ -146,3 +146,24 @@ export enum NameSpace {
   App = 'APP',
   User = 'USER',
 }
+
+export const DATE_OPTIONS:Intl.DateTimeFormatOptions = {
+  month: 'long',
+  year: 'numeric'
+};
+
+export const ONE_STAR_RATING_WIDTH = 20;
+export const MIN_REVIEW_CHARS = 50;
+export const MAX_REVIEW_CHARS = 300;
+export const FORM_REVIEW_DATA = {
+  maxChars: 300,
+  minChars: 50,
+  rating:[{value:1, title:'terribly'},{value:2, title:'badly'},{value:3, title:'not bad'},{value:4, title:'good'},{value:5, title:'perfect'}]
+};
+
+export const POST_STATUS = {
+  Loading: 'loading',
+  Failed: 'failed',
+  Success: 'success',
+  Idle: 'idle'
+};

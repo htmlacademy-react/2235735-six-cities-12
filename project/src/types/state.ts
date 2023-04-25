@@ -1,5 +1,5 @@
 import { store } from '../store/index';
-import { AuthorizationStatus } from '../const';
+import { AuthorizationStatus, } from '../const';
 import { City, Offer,} from './offers';
 import { Comment } from './comments';
 import { UserData } from './user-data';
@@ -19,6 +19,7 @@ export type OfferData = {
     offers: Offer[];
     isOffersDataLoading: boolean;
     favorites: Offer[];
+    postStatus: string;
 };
 
 export type AppProcess = {
