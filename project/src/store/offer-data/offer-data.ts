@@ -50,6 +50,8 @@ export const offerData = createSlice({
         state.offers = action.payload;
         const cards = state.offers.filter((e) => e.city.name === DEFAULT_CITY.name);
         state.cards = cards;
+        const favorites = state.offers.filter((e) => e.isFavorite === true);
+        state.favorites = favorites;
       })
       .addCase(fetchOffersAction.rejected, (state) => {
         state.isOffersDataLoading = false;
@@ -79,7 +81,9 @@ export const offerData = createSlice({
       })
       .addCase(addFavoritesAction.fulfilled, (state, action) => {
         state.favorites.push(action.payload);
-        state.offerDetails = action.payload;
+        if (state.offerDetails.id === action.payload.id){
+          state.offerDetails = action.payload;
+        }
         const newCards = state.cards.map((offer)=> {
           if (offer.id === action.payload.id) {
             offer.isFavorite = true;
@@ -87,11 +91,21 @@ export const offerData = createSlice({
           return offer;
         });
         state.cards = newCards;
+        const newNearPlaces = state.offerNearPlaces.map((offer)=>{
+          if (offer.id === action.payload.id) {
+            offer.isFavorite = true;
+          }
+          return offer;
+        });
+        state.offerNearPlaces = newNearPlaces;
+
       })
       .addCase(removeFavoritesAction.fulfilled, (state, action) => {
         const newFavorites = state.favorites.filter((offer) => (offer.id !== action.payload.id));
         state.favorites = newFavorites;
-        state.offerDetails = action.payload;
+        if (state.offerDetails.id === action.payload.id){
+          state.offerDetails = action.payload;
+        }
         const newCards = state.cards.map((offer)=> {
           if (offer.id === action.payload.id) {
             offer.isFavorite = false;
@@ -99,6 +113,13 @@ export const offerData = createSlice({
           return offer;
         });
         state.cards = newCards;
+        const newNearPlaces = state.offerNearPlaces.map((offer)=>{
+          if (offer.id === action.payload.id) {
+            offer.isFavorite = false;
+          }
+          return offer;
+        });
+        state.offerNearPlaces = newNearPlaces;
       });
   }
 });

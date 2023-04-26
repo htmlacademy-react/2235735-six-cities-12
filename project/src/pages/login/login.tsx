@@ -9,6 +9,10 @@ import { AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks';
 import Main from '../main/main';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { City } from '../../types/offers';
+import { changeCity, filterCards } from '../../store/offer-data/offer-data';
+import { sortType } from '../../store/app-process/app-process';
+import { CITIES } from '../../const';
 
 function Login(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -38,7 +42,12 @@ function Login(): JSX.Element {
       });
     }
   };
-
+  const town:City = CITIES[Math.floor(Math.random() * CITIES.length)];
+  const displayOffer = (newCity: City) => {
+    dispatch(changeCity({ city: newCity }));
+    dispatch(filterCards({ city: newCity }));
+    dispatch(sortType({ type: 'Popular' }));
+  };
 
   return (
     <div className="page page--gray page--login">
@@ -72,9 +81,14 @@ function Login(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="/">
-                <span>Amsterdam</span>
-              </a>
+              <Link
+                onClick={() => {
+                  displayOffer(town);
+                }}
+                className="locations__item-link" to="/"
+              >
+                <span>{town.name}</span>
+              </Link>
             </div>
           </section>
         </div>
