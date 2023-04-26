@@ -8,7 +8,7 @@ import Property from '../../pages/property/property';
 import PrivateRoute from '../private-route/private-route';
 import { useAppSelector } from '../../hooks';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
-import {getAuthorizationStatus} from '../../store/user-process/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { getOffersDataLoadingStatus } from '../../store/offer-data/selectors';
 
 
@@ -17,7 +17,7 @@ function App(): JSX.Element {
   const isOffersDataLoading = useAppSelector(getOffersDataLoadingStatus);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
-  if ( isOffersDataLoading) {
+  if (isOffersDataLoading) {
     return (
       <LoadingScreen />
     );
@@ -37,7 +37,7 @@ function App(): JSX.Element {
           path={AppRoute.Favorites}
           element={
             <PrivateRoute authorizationStatus={authorizationStatus}>
-              <Favorites/>
+              <Favorites />
             </PrivateRoute>
           }
         />

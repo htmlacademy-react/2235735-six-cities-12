@@ -23,21 +23,19 @@ function Card({ offer }: CardProps): JSX.Element {
   };
   const navigate = useNavigate();
   const userAuthStatus = useAppSelector(getAuthorizationStatus);
-  const handleFavorites = ()=>{
+  const handleFavorites = () => {
     userAuthStatus !== AuthorizationStatus.Auth ? navigate(AppRoute.Login) : addOrRemoveFavorites(offer);
   };
-  const addOrRemoveFavorites = (card:Offer) => {
-    if (!card.isFavorite){
-      dispatch (addFavoritesAction(card));
-
+  const addOrRemoveFavorites = (card: Offer) => {
+    if (!card.isFavorite) {
+      dispatch(addFavoritesAction(card));
     } else {
-      dispatch (removeFavoritesAction(card));
-
+      dispatch(removeFavoritesAction(card));
     }
   };
 
-  const capitalizeFirstLetter = (string:string):string => {
-    if (!string) {return string;}
+  const capitalizeFirstLetter = (string: string): string => {
+    if (!string) { return string; }
     return string[0].toUpperCase() + string.slice(1);
   };
 
