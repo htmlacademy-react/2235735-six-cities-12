@@ -43,9 +43,11 @@ function Card({ offer }: CardProps): JSX.Element {
 
   return (
     <>
-      <div className="place-card__mark">
-        {offer.isPremium && (<span>Premium</span>)}
-      </div>
+      {offer.isPremium && (
+        <div className="place-card__mark">
+          <span>Premium</span>
+        </div>
+      )}
       <div className={cn(
         'place-card__image-wrapper',
         {
@@ -55,7 +57,7 @@ function Card({ offer }: CardProps): JSX.Element {
         }
       )}
       >
-        <Link to='/offer/:{offer.id}' onClick={onClick}>
+        <Link to={`/offer/${offer.id}`} onClick={onClick}>
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place pic" />
         </Link>
       </div>
