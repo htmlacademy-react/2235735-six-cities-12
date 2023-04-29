@@ -167,3 +167,6 @@ export const POST_STATUS = {
   Success: 'success',
   Idle: 'idle'
 };
+
+export const PASSWORD_VALID_TEMPLATE = /(?=.*[a-z])(?=.*[0-9])/g;
+export const IMAGES_RENDER_COUNT = 6;

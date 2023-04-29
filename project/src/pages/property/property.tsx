@@ -5,7 +5,7 @@ import Map from '../../components/map/map';
 import ReviewList from '../../components/review-list/review-list';
 import { Offer } from '../../types/offers';
 import { useAppSelector,useAppDispatch } from '../../hooks';
-import { AuthorizationStatus, AppRoute } from '../../const';
+import { AuthorizationStatus, AppRoute, IMAGES_RENDER_COUNT } from '../../const';
 import { getOfferComments, getOfferNearPlaces, getOfferDetails } from '../../store/offer-data/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { getCity } from '../../store/offer-data/selectors';
@@ -31,7 +31,7 @@ function Property(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const { bedrooms, description, isPremium, title, rating, price, maxAdults, type, images, goods, host: { avatarUrl, isPro, name }, isFavorite } = offerDetails;
-  const imagesToRender: string[] = images.slice(0, 6);
+  const imagesToRender: string[] = images.slice(0, IMAGES_RENDER_COUNT);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const userAuthStatus = useAppSelector(getAuthorizationStatus);
