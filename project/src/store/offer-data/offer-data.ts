@@ -2,10 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NameSpace, DEFAULT_CITY,UNKNOWN_OFFER,POST_STATUS } from '../../const';
 import { OfferData } from '../../types/state';
 import { City, Offer } from '../../types/offers';
+import { Error } from '../../types/error';
 import { fetchOffersAction, fetchOfferDetailsAction, fetchOfferCommentsAction, fetchOfferNearPlacesAction, commentAction,fetchFavoritesAction, addFavoritesAction, removeFavoritesAction} from '../api-action';
 
 const initialState: OfferData = {
-  error:false,
+  error:{
+    status:false,
+    text:''
+  },
   offerNearPlaces: [],
   offerComments: [],
   city:DEFAULT_CITY,
@@ -34,7 +38,7 @@ export const offerData = createSlice({
       const cards = state.offers.filter((e) => e.city.name === city.name);
       state.cards = cards;
     },
-    showError: (state, action: PayloadAction<{error:boolean}>) => {
+    showError: (state, action: PayloadAction<{error:Error}>) => {
       const {error} = action.payload;
       state.error = error;
     },
@@ -43,7 +47,7 @@ export const offerData = createSlice({
     builder
       .addCase(fetchOffersAction.pending, (state) => {
         state.isOffersDataLoading = true;
-        state.error = false;
+        state.error.status = false;
       })
       .addCase(fetchOffersAction.fulfilled, (state, action) => {
         state.isOffersDataLoading = false;

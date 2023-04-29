@@ -3,6 +3,7 @@ import { AuthorizationStatus, } from '../const';
 import { City, Offer,} from './offers';
 import { Comment } from './comments';
 import { UserData } from './user-data';
+import { Error } from './error';
 
 export type UserProcess = {
     user:UserData;
@@ -10,7 +11,7 @@ export type UserProcess = {
 };
 
 export type OfferData = {
-    error: boolean;
+    error: Error;
     offerNearPlaces: Offer[];
     offerComments: Comment[];
     offerDetails:Offer;

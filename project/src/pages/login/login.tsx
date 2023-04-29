@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
 import { loginAction } from '../../store/api-action';
 import { AuthData } from '../../types/auth-data';
-import { AppRoute } from '../../const';
+import { AppRoute, PASSWORD_VALID_TEMPLATE } from '../../const';
 import { AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks';
 import Main from '../main/main';
@@ -13,6 +13,8 @@ import { City } from '../../types/offers';
 import { changeCity, filterCards } from '../../store/offer-data/offer-data';
 import { sortType } from '../../store/app-process/app-process';
 import { CITIES } from '../../const';
+import { Error } from '../../types/error';
+import { showError } from '../../store/offer-data/offer-data';
 
 function Login(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -35,11 +37,21 @@ function Login(): JSX.Element {
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (loginRef.current !== null && passwordRef.current !== null) {
-      onSubmit({
-        login: loginRef.current.value,
-        password: passwordRef.current.value,
-      });
+    if (loginRef.current !== null && passwordRef.current !== null ) {
+      if(!passwordRef.current.value.match(PASSWORD_VALID_TEMPLATE)){
+        const passwordError:Error = {
+          status: true,
+          text: 'Password should contain at least one letter and one digit'
+        };
+        dispatch(showError({ error: passwordError }));
+      }else {
+        dispatch(showError({ error: {status:false, text:''} }));
+        onSubmit({
+          login: loginRef.current.value,
+          password: passwordRef.current.value,
+        });
+      }
+
     }
   };
   const town:City = CITIES[Math.floor(Math.random() * CITIES.length)];

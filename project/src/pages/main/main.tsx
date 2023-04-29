@@ -13,7 +13,7 @@ function Main(): JSX.Element {
   const offers = useAppSelector(getOffers);
   const city = useAppSelector(getCity);
   const type = useAppSelector(getSortType);
-  const errorStatus = useAppSelector(getErrorStatus);
+  const error = useAppSelector(getErrorStatus);
 
   return (
     <div className="page page--gray page--main">
@@ -22,7 +22,7 @@ function Main(): JSX.Element {
       <main className={cn(
         'page__main page__main--index',
         {
-          'page__main--index-empty': errorStatus,
+          'page__main--index-empty': error.status && error.text === 'Can\'t get offers',
         }
       )}
       >
@@ -35,7 +35,7 @@ function Main(): JSX.Element {
           </section>
         </div>
         <div className="cities">
-          {errorStatus ? <MainEmpty/> : (
+          { error.status && error.text === 'Can\'t get offers' ? <MainEmpty/> : (
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
